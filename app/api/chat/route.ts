@@ -70,7 +70,7 @@ export async function POST(req:NextRequest, res:NextResponse){
 // import { NextRequest, NextResponse } from "next/server";
 // import { GoogleGenerativeAI } from "@google/generative-ai";
 // import { systemPrompt } from "@/app/prompts/defaultPrompt";
-// // import { iteratorToStream } from "@/lib/stream-utils"; // 👈 Import the new utility
+// // import { iteratorToStream } from "@/lib/stream-utils"; // Import the new utility
 
 // const ai = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
@@ -92,7 +92,7 @@ export async function POST(req:NextRequest, res:NextResponse){
 //       contents: messages,
 //     });
 
-//     // 💡 THE FIX: Convert the async iterator to a ReadableStream
+//     //  THE FIX: Convert the async iterator to a ReadableStream
 //     const stream = iteratorToStream(response.stream);
 
 //     return new Response(stream, {
