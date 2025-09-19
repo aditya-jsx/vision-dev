@@ -26,7 +26,7 @@ export async function POST(req:NextRequest, res:NextResponse){
     }
 
     return NextResponse.json({output});
-
+    
   }catch(e){
     console.log("Failed to get the response from the model")
   }

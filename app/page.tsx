@@ -1,7 +1,169 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+// import { Button } from "@/components/ui/button";
+// import { Input } from "@/components/ui/input";
+// import { Sparkles, Code2, Zap, GitBranch } from "lucide-react";
+
 export default function Home() {
+  const [prompt, setPrompt] = useState("");
+  // const router = useRouter();
+
+  // const handleGenerate = () => {
+  //   if (prompt.trim()) {
+  //     router.push(`/generate?prompt=${encodeURIComponent(prompt)}`);
+  //   }
+  // };
+
+  // const handleKeyPress = (e: React.KeyboardEvent) => {
+  //   if (e.key === "Enter") {
+  //     handleGenerate();
+  //   }
+  // };
+
   return (
-    <div className="">
-      Helloo!!!
+    <div className="min-h-screen relative overflow-hidden">
+      <div className="min-h-screen w-full relative bg-black">
+        {/* X Organizations Black Background with Top Glow */}
+        <div
+          className="absolute inset-0 z-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(120, 180, 255, 0.25), transparent 70%), #000000",
+          }}
+        />
+
+      {/* Navigation */}
+      <nav className="relative z-10 p-6">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            {/* <Code2 className="w-8 h-8 text-[#b2bdca]" /> */}
+            <span className="text-2xl font-bold bg-gradient-to-r from-[#354a64] to-[#8191a9] bg-clip-text text-transparent">
+              Vision
+            </span>
+          </div>
+          <div className="hidden md:flex items-center space-x-8">
+            <a
+              href="#features"
+              className="text-gray-300 hover:text-white transition-colors"
+            >
+              Features
+            </a>
+            <a
+              href="#pricing"
+              className="text-gray-300 hover:text-white transition-colors"
+            >
+              Pricing
+            </a>
+            <button
+              // variant="outline"
+              className="border-[#354a64] text-[#354a64] hover:bg-[#020b17] hover:border-white  hover:text-white bg-white rounded-lg p-2 hover:cursor-pointer"
+            >
+              Sign In
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Hero Section */}
+      <main className="relative z-10 mt-20">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <div className="max-w-4xl mx-auto flex flex-col items-center">
+            <h1 className="max-w-3xl text-6xl md:text-7xl lg:text-7xl font-bold mb-2 bg-gradient-to-r from-white via-[#354a64] to-[#354a6483] bg-clip-text text-transparent leading-tight">
+              Generate Web Apps with Vision
+              <span className="block"></span>
+            </h1>
+            <div className="max-w-xl">
+              <p className="text-xl md:text-2xl lg:text-lg text-gray-300 mb-12 leading-relaxed">
+                Transform your ideas into production-ready code instantly.
+                Describe what you want to build, and watch Vision create it for you.
+              </p>
+            </div>
+
+            {/* Prompt Input Section */}
+            <div className="w-full mx-auto mb-16 flex flex-col items-center">
+              <div className="relative lg:w-[43rem]">
+                <div className="absolute inset-0 bg-gradient-to-r from-white via-[#354a64] to-[#354a6483] rounded-2xl blur opacity-20"></div>
+                <div className="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl py-3 px-4">
+                  <div className="flex items-center space-x-4">
+                    {/* <Code2 className="w-8 h-8 text-[#b2bdca]" /> */}
+                    <input
+                      // value={prompt}
+                      onChange={(e) => setPrompt(e.target.value)}
+                      // onKeyPress={handleKeyPress}
+                      placeholder="Create a todo app with React and TypeScript"
+                      className="flex-1 bg-transparent border-none text-white placeholder-gray-400 text-lg "
+                    />
+                    <button
+                      // onClick={handleGenerate}
+                      // disabled={!prompt.trim()}
+                      className="bg-[#020b17] border-black border hover:cursor-pointer hover:bg-white hover:text-[#020b17] text-white px-4 py-2 rounded-xl font-semibold transition-all duration-200"
+                    >
+                      Generate
+                      {/* <Zap className="w-5 h-5 ml-2" /> */}
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <p className="text-sm text-gray-400 mt-4">
+                ✨ AI will analyze your request and generate complete,
+                production-ready code
+              </p>
+            </div>
+
+            {/* Feature Cards */}
+            {/* <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+              <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300">
+                <Code2 className="w-12 h-12 text-purple-400 mb-4 mx-auto" />
+                <h3 className="text-xl font-semibold text-white mb-3">Smart Code Generation</h3>
+                <p className="text-gray-300">Advanced AI understands your requirements and generates clean, efficient code following best practices.</p>
+              </div>
+              <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300">
+                <GitBranch className="w-12 h-12 text-pink-400 mb-4 mx-auto" />
+                <h3 className="text-xl font-semibold text-white mb-3">Project Structure</h3>
+                <p className="text-gray-300">Automatically creates proper file organization, dependencies, and project configuration.</p>
+              </div>
+              <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300">
+                <Sparkles className="w-12 h-12 text-yellow-400 mb-4 mx-auto" />
+                <h3 className="text-xl font-semibold text-white mb-3">Interactive Editing</h3>
+                <p className="text-gray-300">Refine and customize your code with AI assistance in a professional development environment.</p>
+              </div>
+            </div> */}
+          </div>
+        </div>
+      </main>
+
+        
+      </div>
+
+      
+
+      {/* <style jsx>{`
+        @keyframes blob {
+          0% {
+            transform: translate(0px, 0px) scale(1);
+          }
+          33% {
+            transform: translate(30px, -50px) scale(1.1);
+          }
+          66% {
+            transform: translate(-20px, 20px) scale(0.9);
+          }
+          100% {
+            transform: translate(0px, 0px) scale(1);
+          }
+        }
+        .animate-blob {
+          animation: blob 7s infinite;
+        }
+        .animation-delay-2000 {
+          animation-delay: 2s;
+        }
+        .animation-delay-4000 {
+          animation-delay: 4s;
+        }
+      `}</style> */}
     </div>
   );
 }
