@@ -8,13 +8,13 @@ import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [prompt, setPrompt] = useState("");
-  // const router = useRouter();
+  const router = useRouter();
 
-  // const handleGenerate = () => {
-  //   if (prompt.trim()) {
-  //     router.push(`/generate?prompt=${encodeURIComponent(prompt)}`);
-  //   }
-  // };
+  const handleGenerate = () => {
+    if (prompt.trim()) {
+      router.push(`/builder?prompt=${encodeURIComponent(prompt)}`);
+    }
+  };
 
   // const handleKeyPress = (e: React.KeyboardEvent) => {
   //   if (e.key === "Enter") {
@@ -92,11 +92,11 @@ export default function Home() {
                       // value={prompt}
                       onChange={(e) => setPrompt(e.target.value)}
                       // onKeyPress={handleKeyPress}
-                      placeholder="Create a todo app with React and TypeScript"
+                      placeholder="Eg: Create a todo app with React and TypeScript"
                       className="flex-1 bg-transparent border-none text-white placeholder-gray-400 text-lg "
                     />
                     <button
-                      // onClick={handleGenerate}
+                      onClick={handleGenerate}
                       // disabled={!prompt.trim()}
                       className="bg-[#020b17] border-black border hover:cursor-pointer hover:bg-white hover:text-[#020b17] text-white px-4 py-2 rounded-xl font-semibold transition-all duration-200"
                     >
@@ -111,59 +111,12 @@ export default function Home() {
                 production-ready code
               </p>
             </div>
-
-            {/* Feature Cards */}
-            {/* <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-              <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300">
-                <Code2 className="w-12 h-12 text-purple-400 mb-4 mx-auto" />
-                <h3 className="text-xl font-semibold text-white mb-3">Smart Code Generation</h3>
-                <p className="text-gray-300">Advanced AI understands your requirements and generates clean, efficient code following best practices.</p>
-              </div>
-              <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300">
-                <GitBranch className="w-12 h-12 text-pink-400 mb-4 mx-auto" />
-                <h3 className="text-xl font-semibold text-white mb-3">Project Structure</h3>
-                <p className="text-gray-300">Automatically creates proper file organization, dependencies, and project configuration.</p>
-              </div>
-              <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 hover:bg-white/10 transition-all duration-300">
-                <Sparkles className="w-12 h-12 text-yellow-400 mb-4 mx-auto" />
-                <h3 className="text-xl font-semibold text-white mb-3">Interactive Editing</h3>
-                <p className="text-gray-300">Refine and customize your code with AI assistance in a professional development environment.</p>
-              </div>
-            </div> */}
           </div>
         </div>
       </main>
 
         
       </div>
-
-      
-
-      {/* <style jsx>{`
-        @keyframes blob {
-          0% {
-            transform: translate(0px, 0px) scale(1);
-          }
-          33% {
-            transform: translate(30px, -50px) scale(1.1);
-          }
-          66% {
-            transform: translate(-20px, 20px) scale(0.9);
-          }
-          100% {
-            transform: translate(0px, 0px) scale(1);
-          }
-        }
-        .animate-blob {
-          animation: blob 7s infinite;
-        }
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-      `}</style> */}
     </div>
   );
 }
