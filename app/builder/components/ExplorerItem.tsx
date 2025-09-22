@@ -25,7 +25,7 @@ export default function ExplorerItem({ name, path, node, onFileSelect }: Explore
     <div className="text-sm">
       <div
         onClick={handleToggle}
-        className="flex items-center cursor-pointer p-1 rounded hover:bg-gray-700"
+        className="flex items-center cursor-pointer p-1 rounded hover:bg-gray-900"
       >
         {isFolder ? (
           <>

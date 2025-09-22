@@ -14,6 +14,7 @@ export default function Home() {
     if (prompt.trim()) {
       router.push(`/builder`);
     }
+    localStorage.setItem("prompt", prompt)
   };
 
   // const handleKeyPress = (e: React.KeyboardEvent) => {

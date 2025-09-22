@@ -8,7 +8,7 @@ interface FileExplorerProps {
 
 export default function FileExplorer({ files, onFileSelect }: FileExplorerProps) {
   return (
-    <div className="p-2 bg-[#1e1e1e] text-white h-full">
+    <div className="p-2 bg-transparent text-white h-full">
       {Object.entries(files).map(([name, node]) => (
         <ExplorerItem
           key={name}
