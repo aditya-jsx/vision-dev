@@ -12,7 +12,7 @@ export default function Home() {
 
   const handleGenerate = () => {
     if (prompt.trim()) {
-      router.push(`/builder?prompt=${encodeURIComponent(prompt)}`);
+      router.push(`/builder`);
     }
   };
 
@@ -58,7 +58,7 @@ export default function Home() {
             </a>
             <button
               // variant="outline"
-              className="border-[#354a64] text-[#354a64] hover:bg-[#020b17] hover:border-white  hover:text-white bg-white rounded-lg p-2 hover:cursor-pointer"
+              className="border-[#354a64] text-[#354a64] hover:bg-[#020b17] hover:border-white  hover:text-white bg-white rounded-lg p-2 hover:cursor-pointer transition-all duration-500 ease-in-out"
             >
               Sign In
             </button>
@@ -70,7 +70,7 @@ export default function Home() {
       <main className="relative z-10 mt-20">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <div className="max-w-4xl mx-auto flex flex-col items-center">
-            <h1 className="max-w-3xl text-6xl md:text-7xl lg:text-7xl font-bold mb-2 bg-gradient-to-r from-white via-[#354a64] to-[#354a6483] bg-clip-text text-transparent leading-tight">
+            <h1 className="max-w-3xl text-6xl md:text-7xl lg:text-7xl font-bold mb-2 bg-gradient-to-r from-white via-[#587190] to-[#1f2c3c83] bg-clip-text text-transparent leading-tight">
               Generate Web Apps with Vision
               <span className="block"></span>
             </h1>
