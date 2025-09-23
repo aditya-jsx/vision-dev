@@ -1,15 +1,15 @@
-import { Step, StepType } from '../lib/types';
+import { AppStep, StepType } from '../lib/types';
 
-export function parseXml(response: string): Step[] {
-    // Extract the XML content between <boltArtifact> tags
-    const xmlMatch = response.match(/<boltArtifact[^>]*>([\s\S]*?)<\/boltArtifact>/);
+export function parseXml(response: string): AppStep[] {
+    // Extract the XML content between <visionArtifact> tags
+    const xmlMatch = response.match(/<visionArtifact[^>]*>([\s\S]*?)<\/visionArtifact>/);
     
     if (!xmlMatch) {
       return [];
     }
   
     const xmlContent = xmlMatch[1];
-    const steps: Step[] = [];
+    const steps: AppStep[] = [];
     let stepId = 1;
   
     // Extract artifact title
@@ -25,8 +25,8 @@ export function parseXml(response: string): Step[] {
       status: 'pending'
     });
   
-    // Regular expression to find boltAction elements
-    const actionRegex = /<boltAction\s+type="([^"]*)"(?:\s+filePath="([^"]*)")?>([\s\S]*?)<\/boltAction>/g;
+    // Regular expression to find visionAction elements
+    const actionRegex = /<visionAction\s+type="([^"]*)"(?:\s+filePath="([^"]*)")?>([\s\S]*?)<\/visionAction>/g;
     
     let match;
     while ((match = actionRegex.exec(xmlContent)) !== null) {
