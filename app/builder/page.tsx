@@ -601,7 +601,7 @@ export default function Builder() {
             
             console.log("Sending payload for detailed steps:", { messages });
 
-            const stepsResponse = await axios.post(`${BACKEND_URL}/api/skeleton`, {
+            const stepsResponse = await axios.post(`${BACKEND_URL}/api/chat`, {
                 messages
             });
 
