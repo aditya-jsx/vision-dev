@@ -612,6 +612,8 @@ export default function Builder() {
 
             const detailedSteps = parseXml(detailedStepsXml);
 
+            // console.log(detailedSteps);
+
             setSteps(currentSteps => [...currentSteps, ...detailedSteps]);
 
         } catch (err: any) {
