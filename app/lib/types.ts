@@ -43,20 +43,80 @@ export interface FileViewerProps {
 
 
 
-export const StepType = {
-    CreateFolder: 'CreateFolder',
-    CreateFile: 'CreateFile',
-    RunScript: 'RunScript',
-};
+// export const StepType = {
+//     CreateFolder: 'CreateFolder',
+//     CreateFile: 'CreateFile',
+//     RunScript: 'RunScript',
+// };
 
-export type StepStatus = "pending" | "in-progress" | "completed" | "failed";
 
-export interface AppStep {
-    id: number;
-    title: string;
-    description: string;
-    type: string;
-    status: StepStatus;
-    code?: string;
-    path?: string;
+// export type StepStatus = "pending" | "in-progress" | "completed" | "failed";
+
+// export interface AppStep {
+//     id: number;
+//     title: string;
+//     description: string;
+//     type: string;
+//     status: StepStatus;
+//     code?: string;
+//     path?: string;
+// }
+
+
+// export enum StepType {
+//   CreateFile,
+//   CreateFolder,
+//   EditFile,
+//   DeleteFile,
+//   RunScript,
+// }
+
+// export interface Step {
+//   id: number;
+//   title: string;
+//   description: string;
+//   type: StepType;
+//   status: 'pending' | 'in-progress' | 'completed';
+//   code?: string;
+//   path?: string;
+// }
+
+
+// export interface FileItem {
+//   name: string;
+//   type: 'file' | 'folder';
+//   path: string;
+//   content?: string;
+//   children?: FileItem[];
+// }
+
+
+
+
+export enum StepType {
+  CreateFile,
+  CreateFolder,
+  EditFile,
+  DeleteFile,
+  RunScript,
+}
+
+// Defines the structure of a single step object.
+export interface Step {
+  id: number;
+  title: string;
+  description: string;
+  type: StepType;
+  status: 'pending' | 'in-progress' | 'completed';
+  code?: string;
+  path?: string;
+}
+
+// Defines the structure for an item in the file explorer (can be a file or a folder).
+export interface FileItem {
+  name: string;
+  type: 'file' | 'folder';
+  path: string;
+  content?: string;
+  children?: FileItem[];
 }
