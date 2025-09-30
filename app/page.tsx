@@ -2,9 +2,6 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-// import { Button } from "@/components/ui/button";
-// import { Input } from "@/components/ui/input";
-// import { Sparkles, Code2, Zap, GitBranch } from "lucide-react";
 
 export default function Home() {
   const [prompt, setPrompt] = useState("");
@@ -26,7 +23,6 @@ export default function Home() {
   return (
     <div className="min-h-screen relative overflow-hidden">
       <div className="min-h-screen w-full relative bg-black">
-        {/* X Organizations Black Background with Top Glow */}
         <div
           className="absolute inset-0 z-0"
           style={{
@@ -39,7 +35,6 @@ export default function Home() {
       <nav className="relative z-10 p-6">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            {/* <Code2 className="w-8 h-8 text-[#b2bdca]" /> */}
             <span className="text-2xl font-bold bg-gradient-to-r from-[#354a64] to-[#8191a9] bg-clip-text text-transparent">
               Vision
             </span>
@@ -58,7 +53,6 @@ export default function Home() {
               Pricing
             </a>
             <button
-              // variant="outline"
               className="border-[#354a64] text-[#354a64] hover:bg-[#020b17] hover:border-white  hover:text-white bg-white rounded-lg p-2 hover:cursor-pointer transition-all duration-500 ease-in-out"
             >
               Sign In
@@ -88,9 +82,7 @@ export default function Home() {
                 <div className="absolute inset-0 bg-gradient-to-r from-white via-[#354a64] to-[#354a6483] rounded-2xl blur opacity-20"></div>
                 <div className="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl py-3 px-4">
                   <div className="flex items-center space-x-4">
-                    {/* <Code2 className="w-8 h-8 text-[#b2bdca]" /> */}
                     <input
-                      // value={prompt}
                       onChange={(e) => setPrompt(e.target.value)}
                       // onKeyPress={handleKeyPress}
                       placeholder="Eg: Create a todo app with React and TypeScript"
@@ -102,7 +94,6 @@ export default function Home() {
                       className="bg-[#020b17] border-black border hover:cursor-pointer hover:bg-white hover:text-[#020b17] text-white px-4 py-2 rounded-xl font-semibold transition-all duration-200"
                     >
                       Generate
-                      {/* <Zap className="w-5 h-5 ml-2" /> */}
                     </button>
                   </div>
                 </div>
