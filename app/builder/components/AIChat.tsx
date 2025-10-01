@@ -1,18 +1,14 @@
 import Loader from "@/app/components/Loader";
-import { AppStep } from "@/app/lib/types";
+import { Step } from "@/app/lib/types";
 import StepItem from "./StepItem";
 
-export default function AIChat({ steps, isLoading }: { steps: AppStep[], isLoading: boolean }) {
+export default function AIChat({ steps, isLoading }: { steps: Step[], isLoading: boolean }) {
     return (
         <div className="h-full w-full text-white flex flex-col overflow-hidden  rounded-xl">
             <style>{`
                 .no-scrollbar::-webkit-scrollbar { display: none; }
                 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
             `}</style>
-
-            {/* <div className="w-full text-white p-3 border-b border-zinc-700 flex-shrink-0">
-                <h3 className="font-semibold text-lg">Generation Steps</h3>
-            </div> */}
 
             <div className="flex-1 w-full pt-2 overflow-y-auto no-scrollbar">
                 {isLoading && steps.length === 0 && (
