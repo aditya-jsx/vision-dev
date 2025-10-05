@@ -1,6 +1,6 @@
-import { AppStep, StepType } from '../lib/types';
+import { Step, StepType } from '../lib/types';
 
-export function parseXml(response: string): AppStep[] {
+export function parseXml(response: string): Step[] {
     // Extract the XML content between <visionArtifact> tags
     const xmlMatch = response.match(/<visionArtifact[^>]*>([\s\S]*?)<\/visionArtifact>/);
     
@@ -9,7 +9,7 @@ export function parseXml(response: string): AppStep[] {
     }
   
     const xmlContent = xmlMatch[1];
-    const steps: AppStep[] = [];
+    const steps: Step[] = [];
     let stepId = 1;
   
     // Extract artifact title
