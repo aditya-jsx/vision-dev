@@ -25,7 +25,6 @@ export enum StepType {
   RunScript,
 }
 
-// The structure of a single step object.
 export interface Step {
   id: number;
   title: string;
@@ -36,7 +35,6 @@ export interface Step {
   path?: string;
 }
 
-// The structure for an item in the file explorer (can be a file or a folder).
 export interface FileItem {
   name: string;
   type: 'file' | 'folder';
