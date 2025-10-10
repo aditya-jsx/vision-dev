@@ -117,6 +117,7 @@ export default function Builder() {
         try {
             const skeletonResponse = await axios.post(`${BACKEND_URL}/api/skeleton`, { prompt: prompt.trim() });
             const { prompts, uiPrompt } = skeletonResponse.data;
+            
             if (!prompts || !uiPrompt || !uiPrompt[0]) throw new Error("Invalid response from skeleton API.");
             
             const initialSteps = parseXml(uiPrompt[0]);
