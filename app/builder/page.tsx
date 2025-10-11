@@ -9,6 +9,8 @@ import { parseXml } from "../utils/parseXml";
 const BACKEND_URL = "http://localhost:3000";
 import { Code2, Eye } from "lucide-react";
 import { CodeEditor } from "./components/CodeEditor";
+import { useWebContainer } from "../hooks/useWebContainer";
+import { FileNode } from "@webcontainer/api";
 
 // (Keep the TabView and CodeEditor components from the previous response here)
 
@@ -43,6 +45,7 @@ export default function Builder() {
     const [files, setFiles] = useState<FileItem[]>([]);
     const [selectedFile, setSelectedFile] = useState<FileItem | null>(null);
     const [activeTab, setActiveTab] = useState<'code' | 'preview'>('code');
+    const webContainer = useWebContainer();
 
     useEffect(() => {
         init();
@@ -101,6 +104,48 @@ export default function Builder() {
 
         processSteps();
     }, [steps]); // Removed `files` from dependency array to prevent potential infinite loops
+
+    
+    useEffect(() => {
+    // Return early if the webcontainer isn't ready or there are no files to mount
+    if (!webContainer || files.length === 0) {
+      return;
+    }
+
+    /**
+     * Converts an array of FileItem objects into a FileSystemTree structure
+     * suitable for WebContainer's mount method.
+     * @param {FileItem[]} items - The array of files and folders to process.
+     * @returns {import('@webcontainer/api').FileSystemTree}
+     */
+    const createMountStructure = (items: FileItem[]): import('@webcontainer/api').FileSystemTree => {
+      const tree: import('@webcontainer/api').FileSystemTree = {};
+
+      for (const item of items) {
+        if (item.type === 'folder') {
+          // Create a directory entry and recursively process its children
+          tree[item.name] = {
+            directory: item.children ? createMountStructure(item.children) : {},
+          };
+        } else if (item.type === 'file') {
+          // Create a file entry with its content
+          tree[item.name] = {
+            file: {
+              contents: item.content || '',
+            },
+          };
+        }
+      }
+      return tree;
+    };
+
+    const mountStructure = createMountStructure(files);
+
+    // Mount the generated file structure to the WebContainer
+    console.log("Mounting files:", mountStructure);
+    webContainer.mount(mountStructure);
+
+  }, [files, webContainer]);
 
     async function init() {
         const prompt = localStorage.getItem("prompt");
@@ -171,3 +216,14 @@ export default function Builder() {
         </div>
     );
 }
+
+
+
+
+
+
+
+
+
+
+
