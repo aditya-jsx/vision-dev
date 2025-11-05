@@ -47,7 +47,7 @@ export function CodeEditor({ file }: { file: FileItem | null }) {
             value={file.content || ''}
             loading={<Loader />}
             options={{
-                readOnly: true, // Set to false if you want to allow editing
+                readOnly: true, // false to allow editing
                 minimap: { enabled: false },
                 fontSize: 14,
                 wordWrap: 'on',

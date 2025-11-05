@@ -1,5 +1,3 @@
-// //! File Explorer
-
 "use client"
 
 import React, { useState } from 'react';
@@ -47,8 +45,7 @@ function FileNode({ item, depth, onFileClick }: { item: FileItem; depth: number;
     );
 }
 
-// Main component for the file explorer pane.
-// **FIX:** Added a default value `[]` to the files prop to prevent the crash.
+// Main component
 export function FileExplorer({ files = [], onFileSelect }: { files: FileItem[]; onFileSelect: (file: FileItem) => void; }) {
     return (
         <div className="h-full w-full text-white flex flex-col overflow-hidden bg-transparent rounded-xl border border-gray-700">
@@ -56,7 +53,6 @@ export function FileExplorer({ files = [], onFileSelect }: { files: FileItem[]; 
                 <h3 className="font-semibold text-lg">File Explorer</h3>
             </div>
             <div className="flex-1 w-full p-2 overflow-y-auto space-y-1">
-                {/* This map is now safe because `files` is guaranteed to be an array */}
                 {files.map((file) => (
                     <FileNode key={file.path} item={file} depth={0} onFileClick={onFileSelect} />
                 ))}
