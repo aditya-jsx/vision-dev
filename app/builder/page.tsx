@@ -6,7 +6,6 @@ import AIChat from "./components/AIChat";
 import { FileExplorer } from "./components/FileExplorer";
 import { Step, StepType, FileItem } from "../lib/types";
 import { parseXml } from "../utils/parseXml";
-const BACKEND_URL = "http://localhost:3000";
 import { Code2, Eye, Terminal as TerminalIcon, Play } from "lucide-react";
 import { CodeEditor } from "./components/CodeEditor";
 import { useWebContainer } from "../hooks/useWebContainer";
@@ -88,6 +87,9 @@ export default function Builder() {
 
     switch (step.type) {
       case StepType.CreateFile:
+        await createFileOrFolder(step);
+        break;
+      case StepType.CreateFolder:
         await createFileOrFolder(step);
         break;
       case StepType.RunScript:
@@ -187,7 +189,7 @@ export default function Builder() {
     setFiles([]);
 
     try {
-      const skeletonResponse = await axios.post(`${BACKEND_URL}/api/skeleton`, {
+      const skeletonResponse = await axios.post(`/api/skeleton`, {
         prompt: prompt.trim(),
       });
       const { prompts, uiPrompt } = skeletonResponse.data;
@@ -202,7 +204,7 @@ export default function Builder() {
         role: "user",
         parts: [{ text: content }],
       }));
-      const stepsResponse = await axios.post(`${BACKEND_URL}/api/chat`, {
+      const stepsResponse = await axios.post(`/api/chat`, {
         messages,
       });
       const detailedStepsXml = stepsResponse.data.output;

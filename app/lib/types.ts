@@ -35,10 +35,10 @@ export interface Step {
   path?: string;
 }
 
-export interface FileItem {
-  name: string;
-  type: 'file' | 'folder';
-  path: string;
-  content?: string;
-  children?: FileItem[];
-}
+// export interface FileItem {
+//   name: string;
+//   type: 'file' | 'folder';
+//   path: string;
+//   content?: string;
+//   children?: FileItem[];
+// }

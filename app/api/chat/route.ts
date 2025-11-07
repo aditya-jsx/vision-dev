@@ -18,7 +18,7 @@ export async function POST(req:NextRequest, res:NextResponse){
         },
     });
 
-    let output:any;
+    let output:string = "";
     
     for await (const chunks of response){
       // console.log(chunks.text)

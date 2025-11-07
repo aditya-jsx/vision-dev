@@ -1,6 +1,6 @@
-import { AppStep } from "@/app/lib/types";
+import { Step } from "@/app/lib/types";
 
-export default function StepItem({ step, index }: { step: AppStep, index: number }){
+export default function StepItem({ step, index }: { step: Step, index: number }){
     const statusStyles = {
         pending: "text-slate-500 border-zinc-700",
         "in-progress": "text-blue-900/50 border-blue-700 animate-pulse",

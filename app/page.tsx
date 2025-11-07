@@ -8,10 +8,10 @@ export default function Home() {
   const router = useRouter();
 
   const handleGenerate = () => {
+    localStorage.setItem("prompt", prompt)
     if (prompt.trim()) {
       router.push(`/builder`);
     }
-    localStorage.setItem("prompt", prompt)
   };
 
   // const handleKeyPress = (e: React.KeyboardEvent) => {
