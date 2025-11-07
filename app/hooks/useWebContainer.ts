@@ -88,7 +88,6 @@ export function useWebContainer() {
     const shellProcessRef = useRef<WebContainerProcess | null>(null);
 
     useEffect(() => {
-        // Boot WebContainer only in the browser
         if (typeof window !== 'undefined') {
             const bootWebContainer = async () => {
                 try {
@@ -114,7 +113,6 @@ export function useWebContainer() {
         const setupTerminal = async () => {
             if (shellProcessRef.current) return;
 
-            // Dynamically import xterm only when running in the browser
             const { Terminal } = await import('@xterm/xterm');
             const { FitAddon } = await import('@xterm/addon-fit');
 
@@ -157,11 +155,9 @@ export function useWebContainer() {
                 shellProcess.resize(size);
             });
 
-            // Store resize handler to remove it later
             const handleResize = () => fitAddon.fit();
             window.addEventListener('resize', handleResize);
 
-            // Cleanup only this specific listener on unmount
             (terminal as any)._resizeHandler = handleResize;
         };
 
