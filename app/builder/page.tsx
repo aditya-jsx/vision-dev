@@ -75,7 +75,7 @@
 //         onClick={onToggleTerminal}
 //         className={`flex items-center gap-2 px-4 py-2 rounded-t-md text-sm transition-colors ${
 //           isTerminalOpen
-//             ? "bg-zinc-800 text-white" // Active style when open
+//             ? "bg-zinc-800 text-white"
 //             : "text-zinc-400 hover:bg-zinc-800"
 //         }`}
 //       >
@@ -156,19 +156,35 @@
 //   const [selectedFile, setSelectedFile] = useState<FileItem | null>(null);
 //   const [activeTab, setActiveTab] = useState<"code" | "preview">("code");
 //   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
-//   const { webContainer, terminalEl, previewUrl, inputWriter } =
-//     useWebContainer();
+//   const {
+//     webContainer,
+//     terminalEl,
+//     previewUrl,
+//     inputWriter,
+//     refitTerminal,
+//     restartShellProcess,
+//   } = useWebContainer();
 //   const [reloadKey, setReloadKey] = useState(0);
 
-//   const isWebContainerReady = !!webContainer && !!inputWriter;
+//   const isWebContainerBooted = !!webContainer;
+//   const isShellReady = !!inputWriter;
 
 //   useEffect(() => {
 //     init();
 //   }, []);
 
 //   useEffect(() => {
+//     if (isTerminalOpen) {
+//       const timer = setTimeout(() => {
+//         refitTerminal();
+//       }, 350);
+//       return () => clearTimeout(timer);
+//     }
+//   }, [isTerminalOpen, refitTerminal]);
+
+//   useEffect(() => {
 //     const processSteps = async () => {
-//       if (!webContainer) return;
+//       if (!isShellReady || !webContainer) return;
 
 //       const pendingStep = steps.find((s) => s.status === "pending");
 //       if (!pendingStep) return;
@@ -189,7 +205,7 @@
 //     };
 
 //     processSteps();
-//   }, [steps, webContainer]);
+//   }, [steps, webContainer, isShellReady]);
 
 //   useEffect(() => {
 //     if (previewUrl) {
@@ -212,10 +228,8 @@
 //         case StepType.RunScript:
 //           if (step.code && inputWriter) {
 //             await inputWriter.write(step.code + "\n");
-//           } else if (step.code) {
-//             const [command, ...args] = step.code.split(" ");
-//             const process = await webContainer.spawn(command, args);
-//             await process.exit;
+//           } else {
+//              console.warn("RunScript step skipped: inputWriter not ready or no code");
 //           }
 //           break;
 //       }
@@ -280,7 +294,6 @@
 //             );
 //           }
 //         } else {
-//           // Node doesn't exist, create it
 //           const newNodeType =
 //             isLastPart && type === "file" ? "file" : "folder";
 //           const newNode: FileItem = {
@@ -303,16 +316,23 @@
 //   };
 
 //   const handleRun = async () => {
-//     if (!isWebContainerReady) {
+//     if (!isWebContainerBooted) {
 //       setError("WebContainer is not ready. Please wait.");
 //       return;
 //     }
 
 //     setIsTerminalOpen(true);
+//     setError(null);
 
 //     try {
-//       await inputWriter.write("npm install\n");
-//       await inputWriter.write("npm run dev\n");
+//       const newWriter = await restartShellProcess();
+
+//       if (newWriter) {
+//         await newWriter.write("npm install\n");
+//         await newWriter.write("npm run dev\n");
+//       } else {
+//         setError("Failed to restart terminal. Please try again.");
+//       }
 //     } catch (e: any) {
 //       setError(`Failed to run commands: ${e.message}`);
 //     }
@@ -378,10 +398,10 @@
 //       <div className="h-[7%] w-full border-b border-gray-700 flex items-center justify-between px-4">
 //         <button
 //           onClick={handleRun}
-//           disabled={!isWebContainerReady}
+//           disabled={!isWebContainerBooted}
 //           className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center gap-2 transition-colors disabled:bg-zinc-700 disabled:text-zinc-400 disabled:cursor-not-allowed hover:bg-green-500"
 //         >
-//           {!isWebContainerReady ? (
+//           {!isWebContainerBooted ? (
 //             <>
 //               <Loader />
 //               <span>Booting...</span>
@@ -412,7 +432,7 @@
 //             isTerminalOpen={isTerminalOpen}
 //             onToggleTerminal={() => setIsTerminalOpen(!isTerminalOpen)}
 //           />
-//           {/* This div will hold Code/Preview and Terminal */}
+//           {/* Code/Preview and Terminal */}
 //           <div className="flex-1 flex flex-col overflow-hidden">
 //             {/* Code/Preview Section */}
 //             <div
@@ -421,7 +441,6 @@
 //               } w-full transition-all duration-300`}
 //             >
 //               {" "}
-//               {/* Top panel */}
 //               <div
 //                 className={`h-full w-full ${
 //                   activeTab === "code" ? "" : "hidden"
@@ -440,18 +459,17 @@
 
 //             {/* Terminal Section */}
 //             <div
-//               className={`w-full bg-black p-1 transition-all duration-300 ${
+//               className={`w-full bg-black transition-all duration-300 ${
 //                 isTerminalOpen ? "h-[35%]" : "h-0" // Collapsible height
 //               } overflow-hidden`}
 //             >
-//               <div ref={terminalEl} className="h-full w-full" />
+//               <div ref={terminalEl} className="h-full w-full p-1" />
 //             </div>
 //           </div>
 
 //           {error && (
 //             <div className="p-2 bg-red-900/30 border-t border-red-700 text-center">
 //               {" "}
-//               {/* Removed mt-2, added border-t */}
 //               <p className="text-red-400 font-semibold">{error}</p>
 //             </div>
 //           )}
@@ -460,11 +478,6 @@
 //     </div>
 //   );
 // }
-
-
-
-
-
 
 
 
@@ -640,6 +653,7 @@ export default function Builder() {
   const [selectedFile, setSelectedFile] = useState<FileItem | null>(null);
   const [activeTab, setActiveTab] = useState<"code" | "preview">("code");
   const [isTerminalOpen, setIsTerminalOpen] = useState(false);
+  const [isFileSystemReady, setIsFileSystemReady] = useState(false);
   const {
     webContainer,
     terminalEl,
@@ -668,10 +682,31 @@ export default function Builder() {
 
   useEffect(() => {
     const processSteps = async () => {
-      if (!isShellReady || !webContainer) return;
+      if (!webContainer) return;
 
       const pendingStep = steps.find((s) => s.status === "pending");
-      if (!pendingStep) return;
+
+      if (!pendingStep) {
+        const fileSteps = steps.filter(
+          (s) =>
+            s.type === StepType.CreateFile || s.type === StepType.CreateFolder
+        );
+        if (fileSteps.length > 0 && fileSteps.every((s) => s.status === "completed")) {
+          setIsFileSystemReady(true);
+        }
+        return;
+      }
+
+      if (pendingStep.type === StepType.RunScript) {
+        setSteps((currentSteps) =>
+          currentSteps.map((s) =>
+            s.id === pendingStep.id
+              ? { ...s, status: "completed" }
+              : s
+          )
+        );
+        return;
+      }
 
       setSteps((currentSteps) =>
         currentSteps.map((s) =>
@@ -689,7 +724,7 @@ export default function Builder() {
     };
 
     processSteps();
-  }, [steps, webContainer, isShellReady]);
+  }, [steps, webContainer]);
 
   useEffect(() => {
     if (previewUrl) {
@@ -800,7 +835,8 @@ export default function Builder() {
   };
 
   const handleRun = async () => {
-    if (!isWebContainerBooted) {
+
+    if (!isShellReady || !inputWriter) {
       setError("WebContainer is not ready. Please wait.");
       return;
     }
@@ -809,14 +845,8 @@ export default function Builder() {
     setError(null);
 
     try {
-      const newWriter = await restartShellProcess();
-
-      if (newWriter) {
-        await newWriter.write("npm install\n");
-        await newWriter.write("npm run dev\n");
-      } else {
-        setError("Failed to restart terminal. Please try again.");
-      }
+      await inputWriter.write("npm install\n");
+      await inputWriter.write("npm run dev\n");
     } catch (e: any) {
       setError(`Failed to run commands: ${e.message}`);
     }
@@ -889,6 +919,16 @@ export default function Builder() {
             <>
               <Loader />
               <span>Booting...</span>
+            </>
+          ) : !isFileSystemReady ? (
+            <>
+              <Loader />
+              <span>Writing files...</span>
+            </>
+          ) : !isShellReady ? (
+            <>
+              <Loader />
+              <span>Booting shell...</span>
             </>
           ) : (
             <>
