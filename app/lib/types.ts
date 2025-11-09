@@ -34,11 +34,3 @@ export interface Step {
   code?: string;
   path?: string;
 }
-
-// export interface FileItem {
-//   name: string;
-//   type: 'file' | 'folder';
-//   path: string;
-//   content?: string;
-//   children?: FileItem[];
-// }
