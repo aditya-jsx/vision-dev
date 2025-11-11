@@ -29,6 +29,10 @@ export async function POST(req:NextRequest, res:NextResponse){
     
   }catch(e){
     console.log("Failed to get the response from the model")
+    return NextResponse.json(
+      { error: "Failed to get response from model" },
+      { status: 500 }
+    );
   }
 
 }
