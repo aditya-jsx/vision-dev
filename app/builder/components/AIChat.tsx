@@ -295,8 +295,9 @@ const AiMessage = ({ content, steps = [] }: { content: string, steps?: Step[] })
 
     return (
         <div className="flex items-start gap-3">
-            <div className="flex-shrink-0 bg-blue-900/50 rounded-full p-2">
-                <Sparkles className="w-5 h-5 text-blue-300" />
+            <div className="flex-shrink-0 bg-zinc-950 border rounded-full py-1 px-3 h-full text-xl">
+                {/* <Sparkles className="w-5 h-5 text-blue-300" /> */}
+                V
             </div>
             <div className="flex-1 bg-zinc-800/50 rounded-xl p-3 space-y-3 max-w-[85%]">
                 <p className="font-semibold text-blue-300">Vision</p>
@@ -345,7 +346,7 @@ const UserMessage = ({ content }: { content: string }) => {
                 <p className="font-semibold text-white">You</p>
                 <p className="text-white whitespace-pre-wrap">{content}</p>
             </div>
-            <div className="flex-shrink-0 bg-zinc-700 rounded-full p-2">
+            <div className="flex-shrink-0 bg-blue-600 border rounded-full p-2">
                 <User className="w-5 h-5 text-white" />
             </div>
         </div>
@@ -386,7 +387,7 @@ export default function AIChat({
     }, [chatLog, isLoading]);
 
     return (
-        <div className="h-full w-full text-white flex flex-col overflow-hidden rounded-xl bg-zinc-900">
+        <div className="h-full w-full text-white flex flex-col overflow-hidden rounded-xl bg-zinc-950">
             <style>{`
                 .no-scrollbar::-webkit-scrollbar { display: none; }
                 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
@@ -417,8 +418,9 @@ export default function AIChat({
 
                 {isLoading && (
                     <div className="flex items-start gap-3">
-                        <div className="flex-shrink-0 bg-blue-900/50 rounded-full p-2">
-                            <Sparkles className="w-5 h-5 text-blue-300" />
+                        <div className="flex-shrink-0 bg-zinc-950 border rounded-full py-1 px-3 h-full text-xl">
+                            {/* <Sparkles className="w-5 h-5 text-blue-300" /> */}
+                            V
                         </div>
                         <div className="flex-1 bg-zinc-800/50 rounded-xl p-3 max-w-[85%]">
                             <p className="font-semibold text-blue-300">Vision</p>
