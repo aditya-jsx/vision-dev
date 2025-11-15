@@ -1,3 +1,4 @@
+export const maxDuration = 60;
 import { BASE_PROMPT } from "@/app/prompts/defaultPrompt";
 import { NODE_PROMPT } from "@/app/prompts/nodePrompt";
 import { REACT_PROMPT } from "@/app/prompts/reactPrompt";
