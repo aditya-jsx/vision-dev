@@ -7,7 +7,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const ai = new GoogleGenAI({});
 
-export async function POST(req: NextRequest, res: NextResponse){
+export async function POST(req: NextRequest){
   const body = await req.json();
 
   const prompt = body.prompt;

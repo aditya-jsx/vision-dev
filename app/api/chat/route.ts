@@ -4,7 +4,7 @@ import { GoogleGenAI } from "@google/genai";
 import { systemPrompt } from "@/app/prompts/defaultPrompt";
 const ai = new GoogleGenAI({});
 
-export async function POST(req:NextRequest, res:NextResponse){
+export async function POST(req:NextRequest){
   
   try{
 
