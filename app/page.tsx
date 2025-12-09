@@ -2,53 +2,36 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
 import { useSession, signOut } from "next-auth/react";
 import AuthModal from "./components/AuthModal";
 
 export default function Home() {
   const [prompt, setPrompt] = useState("");
-  const router = useRouter();
-
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const router = useRouter();
   const { data: session, status } = useSession();
 
   const handleGenerate = () => {
-    localStorage.setItem("prompt", prompt);
-    if (prompt.trim()) {
-      router.push(`/builder`);
-    }
-
     if (status === "unauthenticated") {
       setIsAuthModalOpen(true);
       return;
     }
-  
-  };
 
-  const handleSignInClick = () => {
-    setIsAuthModalOpen(true);
+    localStorage.setItem("prompt", prompt);
+    if (prompt.trim()) {
+      router.push(`/builder`);
+    }
   };
-
-  const handleSignOutClick = () => {
-    signOut();
-  };
-
-  // const handleKeyPress = (e: React.KeyboardEvent) => {
-  //   if (e.key === "Enter") {
-  //     handleGenerate();
-  //   }
-  // };
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* Auth Modal */}
       <AuthModal 
         isOpen={isAuthModalOpen} 
         onClose={() => setIsAuthModalOpen(false)} 
       />
 
       <div className="min-h-screen w-full relative bg-black">
+        {/* Background Gradients */}
         <div
           className="absolute inset-0 z-0"
           style={{
@@ -71,9 +54,9 @@ export default function Home() {
               
               {status === "authenticated" ? (
                 <div className="flex items-center gap-4">
-                  <span className="text-zinc-400 text-sm">Hi, {session.user?.name?.split(' ')[0]}</span>
+                  <span className="text-zinc-400 text-sm">Hi, {session?.user?.name?.split(' ')[0]}</span>
                   <button 
-                    onClick={handleSignOutClick}
+                    onClick={() => signOut()}
                     className="border-[#354a64] text-[#354a64] hover:bg-[#020b17] hover:border-white hover:text-white bg-white rounded-lg p-2 px-4 transition-all duration-500 ease-in-out"
                   >
                     Sign Out
@@ -81,7 +64,7 @@ export default function Home() {
                 </div>
               ) : (
                 <button 
-                  onClick={handleSignInClick}
+                  onClick={() => setIsAuthModalOpen(true)}
                   className="border-[#354a64] text-[#354a64] hover:bg-[#020b17] hover:border-white hover:text-white bg-white rounded-lg p-2 px-4 hover:cursor-pointer transition-all duration-500 ease-in-out"
                 >
                   Sign In
@@ -97,7 +80,6 @@ export default function Home() {
             <div className="max-w-4xl mx-auto flex flex-col items-center">
               <h1 className="max-w-3xl text-6xl md:text-7xl lg:text-7xl font-bold mb-2 bg-gradient-to-r from-white via-[#587190] to-[#1f2c3c83] bg-clip-text text-transparent leading-tight">
                 Generate Web Apps with Vision
-                <span className="block"></span>
               </h1>
               <div className="max-w-xl">
                 <p className="text-xl md:text-2xl lg:text-lg text-gray-300 mb-12 leading-relaxed">
