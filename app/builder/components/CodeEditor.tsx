@@ -357,8 +357,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Editor, { BeforeMount, OnMount } from '@monaco-editor/react';
 import type * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
-import { FileItem } from '../../lib/types';
-import Loader from '../../components/Loader';
+import { FileItem } from "../../lib/types";
+import Loader from "../../components/Loader";
 
 // A simple helper function to determine the language for syntax highlighting
 const getLanguageFromPath = (path: string): string => {

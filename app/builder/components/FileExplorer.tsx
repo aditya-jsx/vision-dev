@@ -20,7 +20,7 @@
 
 import React, { useState } from 'react';
 import { FolderTree, File, ChevronRight, ChevronDown } from 'lucide-react';
-import { FileItem } from '../../lib/types';
+import { FileItem } from "../../lib/types";
 
 // Helper component to render each node (file or folder) in the tree.
 function FileNode({ item, depth, onFileClick }: { item: FileItem; depth: number; onFileClick: (file: FileItem) => void; }) {
