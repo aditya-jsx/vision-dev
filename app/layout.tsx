@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
+import { Providers } from "./components/Providers";
+
 const inter = Inter({ subsets: ["latin"] });
 
 const geistSans = Geist({
@@ -32,7 +34,11 @@ export default function RootLayout({
       >
         {children}
       </body> */}
-      <body className={`${inter.className} overflow-x-hidden`}>{children}</body>
+      <body className={`${inter.className} overflow-x-hidden`}>
+        <Providers>
+          {children}
+        </Providers>
+      </body>
     </html>
   );
 }

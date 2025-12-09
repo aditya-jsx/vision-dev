@@ -3,15 +3,35 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+import { useSession, signOut } from "next-auth/react";
+import AuthModal from "./components/AuthModal";
+
 export default function Home() {
   const [prompt, setPrompt] = useState("");
   const router = useRouter();
+
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const { data: session, status } = useSession();
 
   const handleGenerate = () => {
     localStorage.setItem("prompt", prompt);
     if (prompt.trim()) {
       router.push(`/builder`);
     }
+
+    if (status === "unauthenticated") {
+      setIsAuthModalOpen(true);
+      return;
+    }
+  
+  };
+
+  const handleSignInClick = () => {
+    setIsAuthModalOpen(true);
+  };
+
+  const handleSignOutClick = () => {
+    signOut();
   };
 
   // const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -22,6 +42,12 @@ export default function Home() {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
+      {/* Auth Modal */}
+      <AuthModal 
+        isOpen={isAuthModalOpen} 
+        onClose={() => setIsAuthModalOpen(false)} 
+      />
+
       <div className="min-h-screen w-full relative bg-black">
         <div
           className="absolute inset-0 z-0"
@@ -40,21 +66,27 @@ export default function Home() {
               </span>
             </div>
             <div className="hidden md:flex items-center space-x-8">
-              <a
-                href="#features"
-                className="text-gray-300 hover:text-white transition-colors"
-              >
-                Features
-              </a>
-              <a
-                href="#pricing"
-                className="text-gray-300 hover:text-white transition-colors"
-              >
-                Pricing
-              </a>
-              <button className="border-[#354a64] text-[#354a64] hover:bg-[#020b17] hover:border-white  hover:text-white bg-white rounded-lg p-2 hover:cursor-pointer transition-all duration-500 ease-in-out">
-                Sign In
-              </button>
+              <a href="#features" className="text-gray-300 hover:text-white transition-colors">Features</a>
+              <a href="#pricing" className="text-gray-300 hover:text-white transition-colors">Pricing</a>
+              
+              {status === "authenticated" ? (
+                <div className="flex items-center gap-4">
+                  <span className="text-zinc-400 text-sm">Hi, {session.user?.name?.split(' ')[0]}</span>
+                  <button 
+                    onClick={handleSignOutClick}
+                    className="border-[#354a64] text-[#354a64] hover:bg-[#020b17] hover:border-white hover:text-white bg-white rounded-lg p-2 px-4 transition-all duration-500 ease-in-out"
+                  >
+                    Sign Out
+                  </button>
+                </div>
+              ) : (
+                <button 
+                  onClick={handleSignInClick}
+                  className="border-[#354a64] text-[#354a64] hover:bg-[#020b17] hover:border-white hover:text-white bg-white rounded-lg p-2 px-4 hover:cursor-pointer transition-all duration-500 ease-in-out"
+                >
+                  Sign In
+                </button>
+              )}
             </div>
           </div>
         </nav>
@@ -75,20 +107,18 @@ export default function Home() {
                 </p>
               </div>
 
-              {/* Prompt Input Section */}
+              {/* Prompt Section */}
               <div className="w-full mx-auto mb-16 flex flex-col items-center">
                 <div className="relative lg:w-[43rem]">
                   <div className="absolute inset-0 bg-gradient-to-r from-white via-[#354a64] to-[#354a6483] rounded-2xl blur opacity-20"></div>
                   <div className="flex items-center space-x-4">
                     <input
                       onChange={(e) => setPrompt(e.target.value)}
-                      // onKeyPress={handleKeyPress}
                       placeholder="Eg: Create a todo app with React and TypeScript"
                       className="flex-1 border-none text-white placeholder-gray-400 text-lg bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl py-4 px-4"
                     />
                     <button
                       onClick={handleGenerate}
-                      // disabled={!prompt.trim()}
                       className="bg-[#020b17] absolute right-8 border-black border hover:cursor-pointer hover:bg-white hover:text-[#020b17] text-white px-4 py-2 rounded-xl font-semibold transition-all duration-200"
                     >
                       Generate
