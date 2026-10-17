@@ -1,4 +1,5 @@
 import { Step, StepType } from '../lib/types';
+import { safePath } from './safePath';
 
 export function parseXml(response: string): Step[] {
     // Extract the XML content between <visionArtifact> tags
@@ -33,15 +34,19 @@ export function parseXml(response: string): Step[] {
       const [, type, filePath, content] = match;
   
       if (type === 'file') {
-        // File creation step
+        const path = safePath(filePath);
+        if (!path) {
+          console.warn(`Skipping file with unsafe path: ${filePath}`);
+          continue;
+        }
         steps.push({
           id: stepId++,
-          title: `Create ${filePath || 'file'}`,
+          title: `Create ${path}`,
           description: '',
           type: StepType.CreateFile,
           status: 'pending',
           code: content.trim(),
-          path: filePath
+          path
         });
       } else if (type === 'shell') {
         // Shell command step

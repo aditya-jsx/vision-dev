@@ -41,6 +41,27 @@ export function CodeEditor({
     const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
 
     const handleEditorBeforeMount: BeforeMount = (monacoInstance) => {
+      monacoInstance.editor.defineTheme('vision-dark', {
+        base: 'vs-dark',
+        inherit: true,
+        rules: [
+          { token: 'comment', foreground: '52525b', fontStyle: 'italic' },
+          { token: 'keyword', foreground: 'c4b5fd' },
+          { token: 'string', foreground: '6ee7b7' },
+          { token: 'number', foreground: 'fcd34d' },
+          { token: 'type', foreground: '67e8f9' },
+        ],
+        colors: {
+          'editor.background': '#0a0b11',
+          'editor.lineHighlightBackground': '#ffffff08',
+          'editorLineNumber.foreground': '#3f3f46',
+          'editorLineNumber.activeForeground': '#a1a1aa',
+          'editor.selectionBackground': '#6366f140',
+          'editorCursor.foreground': '#67e8f9',
+          'editorIndentGuide.background1': '#ffffff0a',
+        },
+      });
+
       const compilerOptions = {
         jsx: monacoInstance.languages.typescript.JsxEmit.Preserve,
         esModuleInterop: true,
@@ -111,8 +132,9 @@ export function CodeEditor({
 
     if (!file) {
         return (
-            <div className="h-full flex items-center justify-center text-zinc-400">
-                Select a file to view its contents
+            <div className="h-full flex flex-col items-center justify-center gap-3 text-zinc-500">
+                <div className="grid h-12 w-12 place-items-center rounded-xl border border-white/10 bg-white/[0.03] font-mono text-indigo-300">{'</>'}</div>
+                <p className="text-sm">Select a file to view its contents</p>
             </div>
         );
     }
@@ -121,24 +143,21 @@ export function CodeEditor({
     const isModified = file.content !== code;
 
     return (
-        <div className="h-full w-full relative">
+        <div className="h-full w-full relative flex flex-col">
           {/* saved or modified indicator */}
-          {isModified && (
-            <div className="absolute top-2 right-4 z-10 bg-yellow-600/90 text-white text-xs px-2 py-1 rounded shadow-lg">
-              Saving Changes...
-            </div>
-          )}
-          {!isModified && file.content !== null && (
-             <div className="absolute top-2 right-4 z-10 bg-green-600/90 text-white text-xs px-2 py-1 rounded shadow-lg">
-              Saved
-            </div>
-          )}
+          <div className="flex h-9 items-center justify-between border-b border-white/[0.06] px-4">
+            <span className="truncate font-mono text-xs text-zinc-400">{file.path}</span>
+            <span className={`flex items-center gap-1.5 text-[11px] ${isModified ? 'text-amber-300' : 'text-emerald-400'}`}>
+              <span className={`h-1.5 w-1.5 rounded-full bg-current ${isModified ? 'animate-pulse' : ''}`} />
+              {isModified ? 'Saving...' : 'Saved'}
+            </span>
+          </div>
           
           <Editor
-            height="100%"
+            height="calc(100% - 2.25rem)"
             path={file.path} 
             language={language}
-            theme="vs-dark"
+            theme="vision-dark"
             value={code}
             loading={<Loader />}
             onChange={(value) => setCode(value || '')}
@@ -147,7 +166,12 @@ export function CodeEditor({
             options={{
                 readOnly: false,
                 minimap: { enabled: false },
-                fontSize: 14,
+                fontSize: 13,
+                fontFamily: 'ui-monospace, SFMono-Regular, Menlo, monospace',
+                padding: { top: 12 },
+                smoothScrolling: true,
+                cursorSmoothCaretAnimation: 'on',
+                renderLineHighlight: 'all',
                 wordWrap: 'on',
                 scrollBeyondLastLine: false,
                 contextmenu: false,

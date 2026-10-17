@@ -9,10 +9,7 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.63.0",
-    "@babel/standalone": "^7.28.4",
     "@google/genai": "^1.20.0",
-    "@google/generative-ai": "^0.24.1",
     "@monaco-editor/react": "^4.7.0",
     "@next-auth/prisma-adapter": "^1.0.7",
     "@prisma/adapter-pg": "^7.1.0",
@@ -21,6 +18,7 @@
     "@xterm/addon-fit": "^0.10.0",
     "@xterm/xterm": "^5.5.0",
     "axios": "^1.12.2",
+    "dotenv": "^16.6.1",
     "jszip": "^3.10.1",
     "lucide-react": "^0.544.0",
     "monaco-editor": "^0.35.0",
@@ -35,7 +33,6 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
-    "@types/babel__standalone": "^7.1.9",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

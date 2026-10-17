@@ -1,30 +1,27 @@
 import { Step } from "@/app/lib/types";
+import { Check, X } from "lucide-react";
 
-export default function StepItem({ step, index }: { step: Step, index: number }){
-    const statusStyles = {
-        pending: "text-slate-500",
-        "in-progress": "text-blue-400 animate-pulse",
-        completed: "text-green-400",
-        failed: "text-red-400",
-    };
+export default function StepItem({ step }: { step: Step, index: number }){
+    const badge = {
+        pending: <span className="h-1.5 w-1.5 rounded-full bg-zinc-600" />,
+        "in-progress": <span className="h-1.5 w-1.5 rounded-full bg-indigo-400 animate-pulse" />,
+        completed: <Check className="h-3 w-3" />,
+        failed: <X className="h-3 w-3" />,
+    }[step.status];
 
-    const SvgDot = ({ className }: { className: string }) => (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className={`flex-shrink-0 ${className}`}>
-            <circle cx="12" cy="12" r="4" fill="currentColor"/>
-        </svg>
-    );
-
+    const ring = {
+        pending: "bg-white/[0.04] text-zinc-500",
+        "in-progress": "bg-indigo-400/15 text-indigo-300",
+        completed: "bg-emerald-400/15 text-emerald-300",
+        failed: "bg-red-400/15 text-red-300",
+    }[step.status];
 
     return (
-        <div className={`transition-all duration-300 ${statusStyles[step.status]}`}>
-            <div className="flex items-center">
-                <div className={`flex items-center justify-center pl-0 text-xs font-mono flex-shrink-0 ${statusStyles[step.status]}`}>
-                    <SvgDot className={statusStyles[step.status]} />
-                </div>
-                <div className="flex-1 min-w-0 ml-2">
-                    <p className="font-semibold text-zinc-200 truncate">{step.title}</p>
-                    <p className="text-sm text-zinc-400 truncate">{step.description}</p>
-                </div>
+        <div className="flex items-center gap-3 rounded-lg px-1 py-1">
+            <span className={`grid h-5 w-5 flex-shrink-0 place-items-center rounded-full ${ring}`}>{badge}</span>
+            <div className="flex-1 min-w-0">
+                <p className="text-sm text-zinc-200 truncate">{step.title}</p>
+                {step.description && <p className="font-mono text-xs text-zinc-500 truncate">{step.description}</p>}
             </div>
         </div>
     );

@@ -22,14 +22,13 @@ export async function POST(req:NextRequest){
     let output:string = "";
     
     for await (const chunks of response){
-      // console.log(chunks.text)
       output = output + chunks.text;
     }
 
     return NextResponse.json({output});
     
   }catch(e){
-    console.log("Failed to get the response from the model")
+    console.error("Failed to get the response from the model", e);
     return NextResponse.json(
       { error: "Failed to get response from model" },
       { status: 500 }

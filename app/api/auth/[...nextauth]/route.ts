@@ -26,8 +26,7 @@ export const authOptions: AuthOptions = {
   callbacks: {
     async session({ session, token }) {
       if (session.user && token.sub) {
-        // @ts-ignore
-        session.user.id = token.sub;
+        (session.user as { id?: string }).id = token.sub;
       }
       return session;
     },
